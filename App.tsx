@@ -1,20 +1,26 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+/**
+ * Sample React Native App
+ * https://github.com/facebook/react-native
+ *
+ * @format
+ */
 
-export default function App() {
+import { SafeAreaView, useColorScheme } from "react-native";
+import {Provider as StoreProvider} from 'react-redux';
+// import AppNavigator from './navigation';
+// import Toast from 'react-native-toast-message';
+// import { toastConfig } from './src/components/layout/Toast/CustomToast';
+import { store } from './src/store/index';
+
+function App(): JSX.Element {
+  const theme = useColorScheme() == 'light' ? 'light' : 'dark';
   return (
-    <View style={styles.container}>
-      <Text>Open up App.tsx to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+      <StoreProvider store={store}>
+          <SafeAreaView style={{flex: 1}}>
+
+          </SafeAreaView>
+      </StoreProvider>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
