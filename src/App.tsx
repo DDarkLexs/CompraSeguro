@@ -7,14 +7,15 @@
 
 import { SafeAreaView, Text, useColorScheme } from "react-native";
 import {Provider as StoreProvider} from 'react-redux';
-import { store } from './src/store/index';
+import { store } from './store/index';
+import AppNavigation from "./navigation";
 
 function App(): JSX.Element {
   const theme = useColorScheme() == 'light' ? 'light' : 'dark';
   return (
       <StoreProvider store={store}>
           <SafeAreaView style={{flex: 1}}>
-              <Text> Ola mundo</Text>
+              <AppNavigation />
           </SafeAreaView>
       </StoreProvider>
   );
