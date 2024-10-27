@@ -9,6 +9,7 @@ import { SafeAreaView, Text, useColorScheme } from "react-native";
 import {Provider as StoreProvider} from 'react-redux';
 import { store } from './store/index';
 import AppNavigation from "./navigation";
+import { useEffect, useState } from "react";
 
 function App(): JSX.Element {
   const theme = useColorScheme() == 'light' ? 'light' : 'dark';

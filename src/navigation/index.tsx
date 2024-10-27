@@ -4,11 +4,25 @@ import * as React from 'react';
 import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { knex } from '../database';
 
 function HomeScreen() {
+    const [count, setCount] = React.useState(0);
+    const query = async () => {
+        try {
+            const data = await knex.raw("SELECT  1 + 1 as total")
+            setCount(data[0].total)
+            console.log(data)
+        }    catch (error) {
+            console.log(error)
+        }
+    }
+    React.useEffect(()=>{
+        query()
+    },[]);
   return (
     <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-      <Text>Home Screen</Text>
+      <Text>{count}</Text>
     </View>
   );
 }
