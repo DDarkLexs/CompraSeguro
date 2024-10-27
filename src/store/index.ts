@@ -2,15 +2,16 @@ import { configureStore } from '@reduxjs/toolkit';
 import {combineReducers} from 'redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import productSlice from './features/product';
 
 const rootReducer = combineReducers({
-//   auth: authSlice,
+  product: productSlice,
 });
 
 const persistConfig = {
-  key: '@AGUAFACIL',
+  key: '@COMPRASEGURO',
   storage: AsyncStorage,
-  whitelist: ['auth', 'clientServico', 'clienteEmCurso'], // Os reducers que você quer persistir
+  whitelist: [], // Os reducers que você quer persistir
 };
 
 const persistedReducer = persistReducer({...persistConfig}, rootReducer);

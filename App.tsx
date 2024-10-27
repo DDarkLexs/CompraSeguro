@@ -5,11 +5,8 @@
  * @format
  */
 
-import { SafeAreaView, useColorScheme } from "react-native";
+import { SafeAreaView, Text, useColorScheme } from "react-native";
 import {Provider as StoreProvider} from 'react-redux';
-// import AppNavigator from './navigation';
-// import Toast from 'react-native-toast-message';
-// import { toastConfig } from './src/components/layout/Toast/CustomToast';
 import { store } from './src/store/index';
 
 function App(): JSX.Element {
@@ -17,7 +14,7 @@ function App(): JSX.Element {
   return (
       <StoreProvider store={store}>
           <SafeAreaView style={{flex: 1}}>
-
+              <Text> Ola mundo</Text>
           </SafeAreaView>
       </StoreProvider>
   );
