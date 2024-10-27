@@ -5,6 +5,7 @@ import { View, Text } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { knex } from '../database';
+import { sendLocalNotification } from '../utils/utils';
 
 function HomeScreen() {
     const [count, setCount] = React.useState(0);
@@ -12,7 +13,7 @@ function HomeScreen() {
         try {
             const data = await knex.raw("SELECT  1 + 1 as total")
             setCount(data[0].total)
-            console.log(data)
+            sendLocalNotification('Resultado', `Total: ${data[0].total}`, 2)
         }    catch (error) {
             console.log(error)
         }
