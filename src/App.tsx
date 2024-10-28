@@ -7,14 +7,14 @@ import { store } from "./store/index";
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { dark, light } from "./styles/theme";
-
+import "./database/Schema";
 if (Platform.OS === 'ios') {
   
   SplashScreen.preventAutoHideAsync(); // Previne a splash screen de fechar automaticamente
 }
 
 function App(): JSX.Element {
-   const theme = useColorScheme() == 'light' ? light : dark;
+   const theme = useColorScheme() == 'light' ?  light : dark;
 
   const [fontsLoaded, setFontsLoaded] = useState(false);
 
