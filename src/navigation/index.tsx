@@ -6,9 +6,12 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { knex } from '../database';
 import { sendLocalNotification } from '../utils/utils';
+import { TextInput } from 'react-native-paper';
 
 function HomeScreen() {
     const [count, setCount] = React.useState(0);
+    const [text, setText] = React.useState("");
+
     const query = async () => {
         try {
             const data = await knex.raw("SELECT  1 + 1 as total")
@@ -22,7 +25,12 @@ function HomeScreen() {
         query()
     },[]);
   return (
-    <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+    <View style={{ flex: 1 }}>
+       <TextInput
+      label="Email"
+      value={text}
+      onChangeText={text => setText(text)}
+    />
       <Text>{count}</Text>
     </View>
   );
@@ -33,7 +41,7 @@ const Stack = createNativeStackNavigator();
 function AppNavigation() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Home">
         <Stack.Screen  name="Home" component={HomeScreen} />
       </Stack.Navigator>
     </NavigationContainer>
