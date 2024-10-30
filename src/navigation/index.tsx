@@ -7,6 +7,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { knex } from '../database';
 import { sendLocalNotification } from '../utils/utils';
 import { TextInput } from 'react-native-paper';
+import MainBottomTabStack from '../screens/Home';
+
 
 function HomeScreen() {
     const [count, setCount] = React.useState(0);
@@ -42,7 +44,7 @@ function AppNavigation() {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }} initialRouteName="Home">
-        <Stack.Screen  name="Home" component={HomeScreen} />
+        <Stack.Screen  name="Main" component={MainBottomTabStack} />
       </Stack.Navigator>
     </NavigationContainer>
   );

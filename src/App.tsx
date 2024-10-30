@@ -7,7 +7,7 @@ import { store } from "./store/index";
 import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { dark, light } from "./styles/theme";
-import "./database/Schema";
+import {createSchema, dropTablesAndTriggers}  from "./database/Schema";
 if (Platform.OS === 'ios') {
   
   SplashScreen.preventAutoHideAsync(); // Previne a splash screen de fechar automaticamente
@@ -33,6 +33,8 @@ function App(): JSX.Element {
 
   useEffect(() => {
     loadFonts();
+    createSchema();
+    // dropTablesAndTriggers();
   }, []);
 
   if (!fontsLoaded) {
