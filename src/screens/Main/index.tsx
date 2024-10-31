@@ -45,6 +45,16 @@ const MainBottomTabStack: React.FC = () => {
           ),
         }}
       />
+        <Tab.Screen
+          name={Routes.CALENDAR}
+          component={DashboardScreen}
+          options={{
+            tabBarLabel: "Calendário",
+            tabBarIcon: ({ color }) => (
+              <Ionicons name="calendar-outline" size={24} color={color} />
+            ),
+          }}
+        />
       <Tab.Screen
         name={Routes.TASKS}
         component={DashboardScreen}
@@ -56,12 +66,12 @@ const MainBottomTabStack: React.FC = () => {
         }}
       />
       <Tab.Screen
-        name={Routes.TASKS}
+        name={Routes.DASHBOARD}
         component={DashboardScreen}
         options={{
-          tabBarLabel: "Compras",
+          tabBarLabel: "Painel",
           tabBarIcon: ({ color }) => (
-            <Ionicons name="basket-outline" size={24} color={color} />
+            <Ionicons name="analytics-outline" size={24} color={color} />
           ),
         }}
       />
