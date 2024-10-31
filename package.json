@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@expo/knex-expo-sqlite-dialect": "^0.0.1",
+    "@expo/vector-icons": "^14.0.4",
     "@react-native-async-storage/async-storage": "1.23.1",
     "@react-native-community/masked-view": "^0.1.11",
     "@react-navigation/drawer": "^6.7.2",

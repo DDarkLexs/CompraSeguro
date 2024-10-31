@@ -7,6 +7,7 @@ import { createMaterialBottomTabNavigator } from "react-native-paper/react-navig
 // import React from 'react';
 // import {Icon, useTheme} from 'react-native-paper';
 // import Home from './Home';
+import { Ionicons } from "@expo/vector-icons";
 
 const Tab = createMaterialBottomTabNavigator();
 
@@ -39,7 +40,7 @@ const MainBottomTabStack: React.FC = () => {
         options={{
           tabBarLabel: "Home",
           tabBarIcon: ({ color }) => (
-            <Icon source={"home"} size={24} color={color} />
+            <Ionicons name="home-outline" size={24} color={color} />
           ),
         }}
       />

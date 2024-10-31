@@ -4,10 +4,13 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import * as React from "react";
 import { Text, View } from "react-native";
-import { TextInput } from "react-native-paper";
+import { Appbar, TextInput } from "react-native-paper";
 import { knex } from "../database";
 import MainBottomTabStack from "../screens/Main";
 import { sendLocalNotification } from "../utils/utils";
+import CustomNavigationBar from "../components/Header/AppBar";
+
+
 
 function HomeScreen() {
   const [count, setCount] = React.useState(0);
@@ -47,8 +50,9 @@ function AppNavigation() {
           headerShown: true,
           headerTitle: "{Logo}",
           headerTitleAlign: "left",
-          
+          header: (props) => <CustomNavigationBar {...props} />,
         }}
+    
         initialRouteName="Home"
       >
         <Stack.Screen name="Main" component={MainBottomTabStack} />
