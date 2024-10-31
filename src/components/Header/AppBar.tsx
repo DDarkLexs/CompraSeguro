@@ -8,16 +8,16 @@ const CustomNavigationBar = (props: any) => {
     <Appbar.Header
       style={{
         backgroundColor: theme.colors.background,
-        elevation: 2,
-        shadowOpacity: 0.5,
+        elevation: 3,
+        shadowOpacity: 0.1,
         shadowOffset: {
           width: 0,
-          height: 1.2,
+          height: 0,
         },
       }}
       {...props}
     >
-      <Appbar.Content title="My awesome app" />
+      <Appbar.Content title="{logo}" />
     </Appbar.Header>
   );
 };

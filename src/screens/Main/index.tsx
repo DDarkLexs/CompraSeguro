@@ -49,9 +49,19 @@ const MainBottomTabStack: React.FC = () => {
         name={Routes.TASKS}
         component={DashboardScreen}
         options={{
-          tabBarLabel: "Home",
+          tabBarLabel: "Compras",
           tabBarIcon: ({ color }) => (
-            <Icon source={"home"} size={24} color={color} />
+            <Ionicons name="basket-outline" size={24} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        name={Routes.TASKS}
+        component={DashboardScreen}
+        options={{
+          tabBarLabel: "Compras",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="basket-outline" size={24} color={color} />
           ),
         }}
       />

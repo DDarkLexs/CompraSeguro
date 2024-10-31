@@ -4,4 +4,7 @@ declare type StackScreen = {
   [Routes.PRODUCTS]: undefined;
   [Routes.TASKS]: undefined;
   [Routes.HOME]: undefined;
+  [Routes.CALENDAR]: undefined;
+  [Routes.NEW_TASK]: undefined;
+  [Routes.DASHBOARD]: undefined;
 };

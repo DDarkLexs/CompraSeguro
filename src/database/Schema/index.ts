@@ -9,7 +9,6 @@ const createSchema = async () => {
                 table.string('nome', 80).notNullable();
                 table.date('data').notNullable();
                 table.string('status', 20).defaultTo(Status.PENDING).notNullable();
-                    // .defaultTo(Status.PENDING)
                 table.float('total', 10, 2).defaultTo(0); // Será calculado automaticamente
                 table.timestamp('created').defaultTo(knex.fn.now());
                 table.timestamp('updated').defaultTo(knex.fn.now());

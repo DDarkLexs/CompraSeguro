@@ -3,6 +3,9 @@ export enum Routes {
     HOME = 'PRINCIPAL',
     TASKS = 'COMPRAS',
     PRODUCTS = 'PRODUTOS',
+    CALENDAR = 'CALENDARIO',
+    DASHBOARD = 'PAINEL',
+    NEW_TASK = 'NOVA_lISTAGEM',
 }
   
 export enum Status {
