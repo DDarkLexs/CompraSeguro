@@ -1,4 +1,4 @@
-interface compras {
+interface ICompras {
     id_compra: number;
     nome: string;
     data: Date | string;
@@ -6,7 +6,7 @@ interface compras {
     created: Date | string;
     updated: Date | string;
 }
-interface produtos {
+interface IProdutos {
     id_produto: number;
     nome: string;
     preco: number;
@@ -17,3 +17,9 @@ interface produtos {
     updated: Date | string;
     id_compra: number;
 }
+
+
+
+interface ICreateCompra implements Pick<ICompras, "nome"> {
+    nome: string;
+} 

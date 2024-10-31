@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Platform, SafeAreaView, useColorScheme } from "react-native";
+import { Platform, SafeAreaView, useColorScheme, View } from "react-native";
 import { PaperProvider } from "react-native-paper";
 import { Provider as StoreProvider } from "react-redux";
 import AppNavigation from "./navigation";
@@ -44,9 +44,9 @@ function App(): JSX.Element {
   return (
     <PaperProvider theme={theme}>
       <StoreProvider store={store}>
-        <SafeAreaView style={{ flex: 1 }}>
+        <View style={{ flex: 1 }}>
           <AppNavigation />
-        </SafeAreaView>
+        </View>
       </StoreProvider>
     </PaperProvider>
   );
