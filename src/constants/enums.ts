@@ -1,11 +1,12 @@
 export enum Routes {
-    // LOGIN = 'ENTRADA',
-    // REGISTER = 'REGISTRO',
     MAIN = 'MAIN',
     HOME = 'PRINCIPAL',
     TASKS = 'COMPRAS',
     PRODUCTS = 'PRODUTOS',
-    
-
 }
   
+export enum Status {
+    PENDING = 'Pendente',
+    COMPLETED = 'Concluído',
+    CANCELED = 'Cancelado',
+}

@@ -9,6 +9,7 @@ import { knex } from "../database";
 import MainBottomTabStack from "../screens/Main";
 import { sendLocalNotification } from "../utils/utils";
 import CustomNavigationBar from "../components/Header/AppBar";
+import { Routes } from "../constants/enums";
 
 
 
@@ -40,7 +41,7 @@ function HomeScreen() {
   );
 }
 
-const Stack = createNativeStackNavigator();
+const Stack = createNativeStackNavigator<StackScreen>();
 
 function AppNavigation() {
   return (
@@ -48,14 +49,13 @@ function AppNavigation() {
       <Stack.Navigator
         screenOptions={{
           headerShown: true,
-          headerTitle: "{Logo}",
           headerTitleAlign: "left",
           header: (props) => <CustomNavigationBar {...props} />,
         }}
     
-        initialRouteName="Home"
+        initialRouteName={Routes.MAIN}
       >
-        <Stack.Screen name="Main" component={MainBottomTabStack} />
+        <Stack.Screen name={Routes.MAIN} component={MainBottomTabStack} />
       </Stack.Navigator>
     </NavigationContainer>
   );

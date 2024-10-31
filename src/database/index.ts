@@ -5,6 +5,9 @@ const knex = Knex({
   connection: {
     filename: 'compraSeguro.db',
   },
+  migrations: {
+    directory: './migrations/index.ts',
+  },
   useNullAsDefault: true,
 });
 knex.raw('PRAGMA foreign_keys = ON;').then(() => {

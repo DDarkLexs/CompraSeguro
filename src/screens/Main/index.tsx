@@ -8,8 +8,9 @@ import { createMaterialBottomTabNavigator } from "react-native-paper/react-navig
 // import {Icon, useTheme} from 'react-native-paper';
 // import Home from './Home';
 import { Ionicons } from "@expo/vector-icons";
+import { Routes } from "../../constants/enums";
 
-const Tab = createMaterialBottomTabNavigator();
+const Tab = createMaterialBottomTabNavigator<StackScreen>();
 
 const MainBottomTabStack: React.FC = () => {
   const theme = useTheme();
@@ -35,7 +36,7 @@ const MainBottomTabStack: React.FC = () => {
       sceneAnimationEnabled={true}
     >
       <Tab.Screen
-        name={"HOME"}
+        name={Routes.HOME}
         component={HomeScreen}
         options={{
           tabBarLabel: "Home",
@@ -45,7 +46,7 @@ const MainBottomTabStack: React.FC = () => {
         }}
       />
       <Tab.Screen
-        name={"DASHBOARD"}
+        name={Routes.TASKS}
         component={DashboardScreen}
         options={{
           tabBarLabel: "Home",
