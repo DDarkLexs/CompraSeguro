@@ -12,6 +12,7 @@ import CustomTabButton from "../../components/Button/NewTaskBtn";
 import { Routes } from "../../constants/enums";
 import { useAppNavigation } from "../../hooks/useNavigation";
 import HomeScreen from "../Home";
+import CreateTaskScreen from "../Novo";
 
 const Tab = createMaterialBottomTabNavigator<StackScreen>();
 
@@ -70,7 +71,7 @@ const MainBottomTabStack: React.FC = () => {
           title:"",
         }}
         name={Routes.NEW_TASK}
-        component={DashboardScreen}
+        component={CreateTaskScreen}
 
       />
       <Tab.Screen
