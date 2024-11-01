@@ -7,4 +7,5 @@ declare type StackScreen = {
   [Routes.CALENDAR]: undefined;
   [Routes.NEW_TASK]: undefined;
   [Routes.DASHBOARD]: undefined;
+  [Routes.NOTIFICATION]: undefined;
 };

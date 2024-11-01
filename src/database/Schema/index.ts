@@ -40,6 +40,20 @@ const createSchema = async () => {
                 console.log(a);
             });
     }
+    if (!(await knex.schema.hasTable('notificacoes'))) {
+        await knex.schema
+            .createTable('notificacoes', (table) => {
+                table.increments('id').primary();
+                table.string('titulo', 100).notNullable();   
+                table.text('mensagem').notNullable();
+                table.boolean('lida').defaultTo(false);
+                table.timestamp('created').defaultTo(knex.fn.now());
+                table.timestamp('updated').defaultTo(knex.fn.now());
+            })
+            .then((a) => {
+                console.log(a);
+            });
+    }
     await knex
         .raw(
             ` 
@@ -98,6 +112,9 @@ const dropTablesAndTriggers = async () => {
     try {
         await knex.schema.dropTableIfExists('compras').then(() => {
             console.log('Tabela "compras" excluida com sucesso!');
+        });
+        await knex.schema.dropTableIfExists('notificacoes').then(() => {
+            console.log('Tabela "notificacoes" excluida com sucesso!');
         });
         await knex.schema.dropTableIfExists('produtos').then(() => {
             console.log('Tabela "produtos" excluída com sucesso!');

@@ -10,6 +10,7 @@ import MainBottomTabStack from "../screens/Main";
 import { sendLocalNotification } from "../utils/utils";
 import CustomNavigationBar from "../components/Header/AppBar";
 import { Routes } from "../constants/enums";
+import NotificationScreen from "../screens/Notification";
 
 
 
@@ -49,13 +50,15 @@ function AppNavigation() {
       <Stack.Navigator
         screenOptions={{
           headerShown: true,
-          headerTitleAlign: "left",
+
+          headerTitleAlign: "center",
           header: (props) => <CustomNavigationBar {...props} />,
         }}
     
         initialRouteName={Routes.MAIN}
       >
         <Stack.Screen name={Routes.MAIN} component={MainBottomTabStack} />
+        <Stack.Screen options={{headerShown:false}} name={Routes.NOTIFICATION} component={NotificationScreen} />
       </Stack.Navigator>
     </NavigationContainer>
   );

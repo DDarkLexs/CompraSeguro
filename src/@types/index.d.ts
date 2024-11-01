@@ -19,6 +19,16 @@ interface IProdutos {
     id_compra: number;
 }
 
+interface Notificacao {
+    id: number;
+    titulo: string;
+    mensagem: string;
+    lida: boolean;
+    created: Date;
+    updated: Date;
+}
+
+
 
 
 interface ICreateCompra implements Pick<ICompras, "nome"> {

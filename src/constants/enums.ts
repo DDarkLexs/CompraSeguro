@@ -6,6 +6,7 @@ export enum Routes {
     CALENDAR = 'CALENDARIO',
     DASHBOARD = 'PAINEL',
     NEW_TASK = 'NOVA_lISTAGEM',
+    NOTIFICATION = 'NOTIFICAÇÃO',
 }
   
 export enum Status {

@@ -1,6 +1,6 @@
 // import {createMaterialBottomTabNavigator} from '@react-navigation/material-bottom-tabs';
 import { View } from "react-native";
-import { Icon, Text, useTheme } from "react-native-paper";
+import { Text, useTheme } from "react-native-paper";
 import { createMaterialBottomTabNavigator } from "react-native-paper/react-navigation";
 // import {Routes} from 'app/constants/enums';
 // import ProfileNavigator from 'app/screens/cliente/Home/Perfil/Index';
@@ -8,11 +8,15 @@ import { createMaterialBottomTabNavigator } from "react-native-paper/react-navig
 // import {Icon, useTheme} from 'react-native-paper';
 // import Home from './Home';
 import { Ionicons } from "@expo/vector-icons";
+import CustomTabButton from "../../components/Button/NewTaskBtn";
 import { Routes } from "../../constants/enums";
+import { useAppNavigation } from "../../hooks/useNavigation";
+import HomeScreen from "../Home";
 
 const Tab = createMaterialBottomTabNavigator<StackScreen>();
 
 const MainBottomTabStack: React.FC = () => {
+  const navigation = useAppNavigation();
   const theme = useTheme();
   return (
     <Tab.Navigator
@@ -45,16 +49,30 @@ const MainBottomTabStack: React.FC = () => {
           ),
         }}
       />
-        <Tab.Screen
-          name={Routes.CALENDAR}
-          component={DashboardScreen}
-          options={{
-            tabBarLabel: "Calendário",
-            tabBarIcon: ({ color }) => (
-              <Ionicons name="calendar-outline" size={24} color={color} />
-            ),
-          }}
-        />
+
+      <Tab.Screen
+        name={Routes.CALENDAR}
+        component={DashboardScreen}
+        options={{
+          tabBarLabel: "Calendário",
+          tabBarIcon: ({ color }) => (
+            <Ionicons name="calendar-outline" size={24} color={color} />
+          ),
+        }}
+      />
+      <Tab.Screen
+        options={{
+          tabBarIcon: ({ color, focused }) => (
+            <CustomTabButton
+              onPress={() => navigation.navigate(Routes.NEW_TASK)}
+            />
+          ),
+          title:"",
+        }}
+        name={Routes.NEW_TASK}
+        component={DashboardScreen}
+
+      />
       <Tab.Screen
         name={Routes.TASKS}
         component={DashboardScreen}
@@ -79,13 +97,7 @@ const MainBottomTabStack: React.FC = () => {
   );
 };
 
-const HomeScreen = () => {
-  return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-      <Text>Home</Text>
-    </View>
-  );
-};
+
 
 const DashboardScreen = () => {
   return (
