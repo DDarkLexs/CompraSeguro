@@ -1,32 +1,49 @@
 import React from 'react';
-import { View, StyleSheet, TextInput } from 'react-native';
+import { View, StyleSheet, TextInput, Alert } from 'react-native';
 import { Text, Card, Button, RadioButton, useTheme, Chip, IconButton } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-
+import compra from '../../database/Respository/compra';
 const CreateTaskScreen = () => {
   const theme = useTheme();
   const [priority, setPriority] = React.useState("Normal");
   const [repeat, setRepeat] = React.useState("One time");
-
+  const [nome, setNome] = React.useState("");
+  const [descricao, setDescricao] = React.useState("");
+  const [loading, setLoding] = React.useState(false);
+  const registar = async () => {
+      try {
+        setLoding(true);
+        const data = await compra.createCompra({
+          nome,
+          descricao,
+        })
+        Alert.alert("Sucesso", `Compra ${data.nome} registado com sucesso`);
+      } catch (error) {
+        console.error(error)
+        
+      } finally {
+        setLoding(false);
+      }
+  } 
   return (
-    <Card style={styles.container}>
+    <Card style={{...styles.container,backgroundColor: theme.colors.background}}>
       <Card.Content>
-        <Text style={styles.title}>Create new task</Text>
+        <Text style={styles.title}>Criar nova compra</Text>
 
         {/* Input de Título */}
         <View style={styles.inputContainer}>
-          <Ionicons name="document-text-outline" size={20} color={theme.colors.primary} style={styles.icon} />
-          <TextInput placeholder="Title" style={styles.textInput} />
+          <Ionicons  name="document-text-outline" size={20} color={theme.colors.primary} style={styles.icon} />
+          <TextInput value={nome} editable={!loading} placeholder="Título" style={styles.textInput} onChangeText={setNome} />
         </View>
 
         {/* Input de Descrição */}
         <View style={styles.inputContainer}>
           <Ionicons name="chatbox-ellipses-outline" size={20} color={theme.colors.primary} style={styles.icon} />
-          <TextInput placeholder="Description" style={styles.textInput} />
+          <TextInput value={descricao} editable={!loading} placeholder="Descrição" style={styles.textInput} onChangeText={setDescricao} />
         </View>
 
         {/* Nível de Prioridade */}
-        <Text style={styles.sectionTitle}>Select priority level of your task</Text>
+ {/*        <Text style={styles.sectionTitle}>Select priority level of your task</Text>
         <RadioButton.Group onValueChange={(value) => setPriority(value)} value={priority}>
           <View style={styles.radioGroup}>
             <RadioButton.Item label="High" value="High" />
@@ -34,16 +51,16 @@ const CreateTaskScreen = () => {
             <RadioButton.Item label="Normal" value="Normal" />
           </View>
         </RadioButton.Group>
-
+ */}
         {/* Data e Hora */}
-        <Text style={styles.sectionTitle}>Date and time</Text>
+        {/* <Text style={styles.sectionTitle}>Data e hora</Text>
         <View style={styles.dateTimeContainer}>
           <TextInput placeholder="DD/MM/YYYY" style={styles.dateTimeInput} />
           <TextInput placeholder="HH:MM" style={styles.dateTimeInput} />
-        </View>
+        </View> */}
 
         {/* Repetir */}
-        <Text style={styles.sectionTitle}>Repeat</Text>
+       {/*  <Text style={styles.sectionTitle}>Repeat</Text>
         <View style={styles.chipContainer}>
           <Chip
             selected={repeat === "One time"}
@@ -66,10 +83,10 @@ const CreateTaskScreen = () => {
           >
             Custom
           </Chip>
-        </View>
+        </View> */}
 
         {/* Categoria */}
-        <Text style={styles.sectionTitle}>Select the category</Text>
+     {/*    <Text style={styles.sectionTitle}>Select the category</Text>
         <View style={styles.categoryContainer}>
           <View style={styles.categoryChip}>
             <Ionicons name="person-circle-outline" size={24} color={theme.colors.primary} />
@@ -87,14 +104,17 @@ const CreateTaskScreen = () => {
             <Ionicons name="add-circle-outline" size={24} color={theme.colors.primary} />
           </View>
         </View>
-
+ */}
         {/* Botões de Cancelar e Criar */}
         <View style={styles.buttonContainer}>
-          <Button mode="outlined" onPress={() => {}} style={styles.cancelButton}>
-            Cancel
+          <Button disabled={loading} mode="outlined" onPress={() => {
+            setNome("");
+            setDescricao("");
+          }} style={styles.cancelButton}>
+            Cancelar
           </Button>
-          <Button mode="contained" onPress={() => {}} style={styles.createButton}>
-            Create
+          <Button disabled={loading} mode="contained" onPress={registar} style={styles.createButton}>
+            Criar
           </Button>
         </View>
       </Card.Content>
@@ -107,6 +127,7 @@ const styles = StyleSheet.create({
     margin: 16,
     borderRadius: 12,
     padding: 16,
+    backgroundColor: "white",
   },
   title: {
     fontSize: 20,

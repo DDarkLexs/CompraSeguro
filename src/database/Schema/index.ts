@@ -5,14 +5,13 @@ const createSchema = async () => {
     if (!(await knex.schema.hasTable('Compras'))) {
         await knex.schema
             .createTable('Compras', (table) => {
-                table.increments('id_compra', {primaryKey: true}).primary();
+                table.increments('id_compra').primary();
                 table.string('nome', 80).notNullable();
-                table.date('data').notNullable();
-                table.string('status', 20).defaultTo(Status.PENDING).notNullable();
-                table.float('total', 10, 2).defaultTo(0); // Será calculado automaticamente
-                table.timestamp('created').defaultTo(knex.fn.now());
-                table.timestamp('updated').defaultTo(knex.fn.now());
-            })
+                    table.string('status', 20).defaultTo(Status.PENDING).notNullable();
+                    table.text('descricao');
+                    table.float('total', 10, 2).defaultTo(0); // Será calculado automaticamente
+                    table.timestamp('created').defaultTo(knex.fn.now());
+                    table.timestamp('updated').defaultTo(knex.fn.now());            })
             .then((a) => {
                 console.log(a);
             });

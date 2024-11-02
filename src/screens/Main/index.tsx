@@ -68,7 +68,7 @@ const MainBottomTabStack: React.FC = () => {
               onPress={() => navigation.navigate(Routes.NEW_TASK)}
             />
           ),
-          title:"",
+          title:"Nova lista",
         }}
         name={Routes.NEW_TASK}
         component={CreateTaskScreen}

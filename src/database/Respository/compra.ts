@@ -1,3 +1,4 @@
+import { Status } from '../../constants/enums';
 import { knex } from '../index'; // Adjust the import path as necessary
 
 class CompraRepository {
@@ -10,8 +11,9 @@ class CompraRepository {
   }
 
   async createCompra(compra: ICreateCompra): Promise<ICompras> {
-      const response = await knex('Compras').insert(compra);
-    return await knex('Compras').where({ id_compra: response[0] }).first();
+     await knex('Compras').insert({...compra});
+
+    return await knex('Compras').orderBy('id_compra', 'desc').first();
   }
 
   async updateCompra(id_compra: number, compra: ICompras): Promise<ICompras> {

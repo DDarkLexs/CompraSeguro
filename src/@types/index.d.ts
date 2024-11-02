@@ -2,6 +2,7 @@ interface ICompras {
     id_compra: number;
     nome: string;
     data: Date | string;
+    descricao: string | null;
     status: Status.PENDING | Status.COMPLETED | Status.CANCELED;
     total: number;
     created: Date | string;
@@ -31,6 +32,7 @@ interface Notificacao {
 
 
 
-interface ICreateCompra implements Pick<ICompras, "nome"> {
+interface ICreateCompra implements Pick<ICompras, "nome" | "descricao"> {
     nome: string;
+    descricao: string | null;
 } 
