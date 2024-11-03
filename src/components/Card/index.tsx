@@ -1,0 +1,83 @@
+import React, { FC } from 'react';
+import { View, StyleSheet } from 'react-native';
+import { Card, Text, Checkbox, useTheme } from 'react-native-paper';
+
+// Componente reutilizável para exibir uma tarefa
+interface TaskCardProps {
+  title: string;
+  description: string;
+  time: string;
+  priority: string;
+  isChecked: boolean;
+}
+
+const TaskCard: FC<TaskCardProps> = ({ title, description, time, priority, isChecked }) => {
+    const theme = useTheme();
+  const styles = StyleSheet.create({
+    cardContainer: {
+      flexDirection: 'row',
+      alignItems: 'center',
+      marginBottom: 10,
+      borderRadius: 12,
+      backgroundColor: isChecked ? '#eef3ff' : '#ffeef0',
+    },
+    sideBar: {
+      width: 10,
+      shadowOpacity:0,
+      elevation: 0,
+      shadowOffset: { width: 0, height: 0 },
+      
+      backgroundColor: '#FF6B6B', // Cor da barra lateral (vermelho)
+      borderTopLeftRadius: 12,
+      borderBottomLeftRadius: 12,
+    },
+    cardContent: {
+      flex: 1,
+      padding: 15,
+      justifyContent: 'space-between',
+      flexDirection: 'row',
+      alignItems: 'center',
+    },
+    taskInfo: {
+      flex: 1,
+      fontFamily: 'Nunito-SemiBold',
+    },
+    taskTitle: {
+      fontSize: 16,
+      fontWeight: 'bold',
+      color: '#333',
+      fontFamily: 'Nunito-SemiBold',
+    },
+    taskDescription: {
+      fontSize: 14,
+      color: '#555',
+      marginBottom: 5,
+      fontFamily: 'Nunito-Regular',
+    },
+    taskTimePriority: {
+      fontSize: 13,
+      color: '#888',
+    },
+  });
+
+  return (
+    <View style={styles.cardContainer}>
+      <View style={styles.sideBar} />
+      <Card style={{ flex: 1, borderRadius: 12 }}>
+        <Card.Content style={styles.cardContent}>
+          <View style={styles.taskInfo}>
+            <Text style={styles.taskTitle}>{title}</Text>
+            {description ? <Text style={styles.taskDescription}>{description}</Text> : null}
+            <Text style={styles.taskTimePriority}>{time} • {priority}</Text>
+          </View>
+          <Checkbox 
+            status={isChecked ? "checked" : "unchecked"} 
+            onPress={() => {}} 
+          />
+        </Card.Content>
+      </Card>
+    </View>
+  );
+};
+
+export default TaskCard;

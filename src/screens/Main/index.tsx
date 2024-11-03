@@ -13,6 +13,7 @@ import { Routes } from "../../constants/enums";
 import { useAppNavigation } from "../../hooks/useNavigation";
 import HomeScreen from "../Home";
 import CreateTaskScreen from "../Novo";
+import TaskScreen from "../Tasks";
 
 const Tab = createMaterialBottomTabNavigator<StackScreen>();
 
@@ -76,7 +77,7 @@ const MainBottomTabStack: React.FC = () => {
       />
       <Tab.Screen
         name={Routes.TASKS}
-        component={DashboardScreen}
+        component={TaskScreen}
         options={{
           tabBarLabel: "Compras",
           tabBarIcon: ({ color }) => (

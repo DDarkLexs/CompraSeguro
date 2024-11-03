@@ -3,7 +3,7 @@ import { knex } from '../index'; // Adjust the import path as necessary
 
 class CompraRepository {
   async getAllCompras(): Promise<ICompras[]> {
-    return await knex('Compras').select('*');
+    return await knex('Compras').orderBy('created', 'desc').select('*');
   }
 
   async getCompraById(id_compra: number): Promise<ICompras> {

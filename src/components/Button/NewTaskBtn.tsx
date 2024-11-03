@@ -28,7 +28,7 @@ const CustomTabButton: React.FC<CustomTabButtonProps> = ({ onPress }) => {
       justifyContent: 'center',
       alignItems: 'center',
       position: 'absolute',
-      elevation: 5, // Adiciona sombra para um efeito de profundidade
+      // elevation: 5, // Adiciona sombra para um efeito de profundidade
     },
     iconContainer: {
       width: 50,
