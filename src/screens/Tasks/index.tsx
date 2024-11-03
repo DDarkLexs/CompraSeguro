@@ -4,15 +4,16 @@ import { Card, Text, Checkbox, Divider } from 'react-native-paper';
 import TaskCard from '../../components/Card';
 import { Status } from '../../constants/enums';
 import compraRepository from '../../database/Respository/compra';
+import { useAppSelector } from '../../hooks/useRedux';
 
 const TaskScreen = () => {
     const [compras, setCompras] = useState<ICompras[]>([]);
+    const $compra = useAppSelector(state => state.compras.compras);
     useEffect(() => {
         compraRepository.getAllCompras().then((compras) => {
-            console.log(compras);
             setCompras(compras);
         });
-    }, []);
+    }, [$compra]);
     const groupByStatus = (compras: ICompras[]) => {
         const pendentes = compras.filter((compra) => compra.status === Status.PENDING);
         const concluidas = compras.filter((compra) => compra.status === Status.COMPLETED);
@@ -38,9 +39,10 @@ const TaskScreen = () => {
                                 <TaskCard
                                     key={j}
                                     title={compra.nome}
-                                    description={"compra.descricao"}
-                                    time={"compra.data"}
-                                    priority={"compra.prioridade"}
+                                    description={compra.descricao}
+                                    time={compra.created.toLocaleString()}
+                                    // priority={"compra.prioridade"}
+                                    status={compra.status}
                                     isChecked={compra.status === Status.COMPLETED}
                                 />
                             );

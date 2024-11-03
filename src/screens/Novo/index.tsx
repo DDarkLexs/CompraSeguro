@@ -3,10 +3,11 @@ import { View, StyleSheet, TextInput, Alert } from 'react-native';
 import { Text, Card, Button, RadioButton, useTheme, Chip, IconButton } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
 import compra from '../../database/Respository/compra';
+import { useAppDispatch } from '../../hooks/useRedux';
+import { setCompras } from '../../store/features/compras';
 const CreateTaskScreen = () => {
   const theme = useTheme();
-  const [priority, setPriority] = React.useState("Normal");
-  const [repeat, setRepeat] = React.useState("One time");
+  const disaptch = useAppDispatch();
   const [nome, setNome] = React.useState("");
   const [descricao, setDescricao] = React.useState("");
   const [loading, setLoding] = React.useState(false);
@@ -17,6 +18,9 @@ const CreateTaskScreen = () => {
           nome,
           descricao,
         })
+
+        const values  = await compra.getAllCompras();
+        disaptch(setCompras(values));
         Alert.alert("Sucesso", `Compra ${data.nome} registado com sucesso`);
       } catch (error) {
         console.error(error)

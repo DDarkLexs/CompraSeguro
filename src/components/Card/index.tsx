@@ -1,5 +1,5 @@
-import React, { FC } from 'react';
-import { View, StyleSheet } from 'react-native';
+import React, { FC, useState } from 'react';
+import { View, StyleSheet, TouchableOpacity } from 'react-native';
 import { Card, Text, Checkbox, useTheme } from 'react-native-paper';
 
 // Componente reutilizável para exibir uma tarefa
@@ -7,19 +7,21 @@ interface TaskCardProps {
   title: string;
   description: string;
   time: string;
-  priority: string;
+  status: string;
   isChecked: boolean;
 }
 
-const TaskCard: FC<TaskCardProps> = ({ title, description, time, priority, isChecked }) => {
+const TaskCard: FC<TaskCardProps> = ({ title, description, time, status, isChecked }) => {
     const theme = useTheme();
+  const [checked, setChecked] = useState(isChecked);
+
   const styles = StyleSheet.create({
     cardContainer: {
       flexDirection: 'row',
       alignItems: 'center',
       marginBottom: 10,
       borderRadius: 12,
-      backgroundColor: isChecked ? '#eef3ff' : '#ffeef0',
+      backgroundColor: checked ? '#eef3ff' : '#ffeef0',
     },
     sideBar: {
       width: 10,
@@ -61,23 +63,27 @@ const TaskCard: FC<TaskCardProps> = ({ title, description, time, priority, isChe
   });
 
   return (
-    <View style={styles.cardContainer}>
-      <View style={styles.sideBar} />
-      <Card style={{ flex: 1, borderRadius: 12 }}>
-        <Card.Content style={styles.cardContent}>
-          <View style={styles.taskInfo}>
-            <Text style={styles.taskTitle}>{title}</Text>
-            {description ? <Text style={styles.taskDescription}>{description}</Text> : null}
-            <Text style={styles.taskTimePriority}>{time} • {priority}</Text>
-          </View>
-          <Checkbox 
-            status={isChecked ? "checked" : "unchecked"} 
-            onPress={() => {}} 
-          />
-        </Card.Content>
-      </Card>
-    </View>
+    <TouchableOpacity onPress={() => {
+      
+    }}>
+      <View style={styles.cardContainer}>
+        <View style={styles.sideBar} />
+        <Card style={{ flex: 1, borderRadius: 12 }}>
+          <Card.Content style={styles.cardContent}>
+            <View style={styles.taskInfo}>
+              <Text style={styles.taskTitle}>{title}</Text>
+              {description ? <Text style={styles.taskDescription}>{description}</Text> : null}
+              <Text style={styles.taskTimePriority}>{time} • {status}</Text>
+            </View>
+            <Checkbox 
+              status={checked ? "checked" : "unchecked"} 
+            />
+          </Card.Content>
+        </Card>
+      </View>
+    </TouchableOpacity>
   );
 };
 
 export default TaskCard;
+

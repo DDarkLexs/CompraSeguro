@@ -3,15 +3,17 @@ import {combineReducers} from 'redux';
 import { persistReducer, persistStore } from 'redux-persist';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import productSlice from './features/product';
+import comprasSlice from './features/compras';
 
 const rootReducer = combineReducers({
   product: productSlice,
+  compras: comprasSlice
 });
 
 const persistConfig = {
   key: '@COMPRASEGURO',
   storage: AsyncStorage,
-  whitelist: [], // Os reducers que você quer persistir
+  whitelist: ["compras", "product"], // Os reducers que você quer persistir
 };
 
 const persistedReducer = persistReducer({...persistConfig}, rootReducer);
