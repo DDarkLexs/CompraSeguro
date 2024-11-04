@@ -1,22 +1,38 @@
 import React, { useEffect, useState } from 'react';
 import { ScrollView, View, StyleSheet } from 'react-native';
-import { Card, Text, Checkbox, Divider } from 'react-native-paper';
+import { Card, Text, Checkbox, Divider, useTheme } from 'react-native-paper';
 import TaskCard from '../../components/Card';
 import { Routes, Status } from '../../constants/enums';
 import compraRepository from '../../database/Respository/compra';
 import { useAppSelector } from '../../hooks/useRedux';
 import { convertToCurrency } from '../../utils/utils';
 import { useAppNavigation } from '../../hooks/useNavigation';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
 
-const ComprasScreen = () => {
+const ComprasScreen: React.FC<
+NativeStackScreenProps<StackScreen, Routes.ORDER>
+> = ({ navigation, route, }): React.JSX.Element => {
     const [compras, setCompras] = useState<ICompras[]>([]);
     const $compra = useAppSelector(state => state.compras.compras);
-    const navigation = useAppNavigation();
+    // const navigation = useAppNavigation();
     useEffect(() => {
         compraRepository.getAllCompras().then((compras) => {
             setCompras(compras);
         });
     }, [$compra]);
+
+    const get = async () => {
+      compraRepository.getAllCompras().then((compras) => {
+        setCompras(compras);
+    });
+    };
+
+    useEffect(()=>{
+      const unsubscribe = navigation.addListener('focus', get);
+      return unsubscribe; // Limpa o listener ao desmontar o componente
+    },[navigation, $compra])
+
+
     const groupByStatus = (compras: ICompras[]) => {
         const pendentes = compras.filter((compra) => compra.status === Status.PENDING);
         const concluidas = compras.filter((compra) => compra.status === Status.COMPLETED);
@@ -30,30 +46,32 @@ const ComprasScreen = () => {
     };
 
     const groupedCompras = groupByStatus(compras);
-
+    const theme = useTheme();
     return (
-        <ScrollView style={styles.container}>
-            {groupedCompras.map((group, i) => {
-                return (
-                    <View key={i}>
-                        <Text style={styles.sectionTitle}>{group.status === Status.PENDING ? 'Tarefas pendentes' : group.status === Status.COMPLETED ? 'Tarefas concluidas' : 'Tarefas canceladas'}</Text>
-                        {group.compras.map((compra, i) => {
-                            return (
-                                <TaskCard
-                                    key={i}
-                                    title={compra.nome}
-                                    total={convertToCurrency(compra.total)}
-                                    time={compra.created.toLocaleString()}
-                                    onPress={() => navigation.navigate(Routes.PRODUCTS, {id_compra: compra.id_compra})}
-                                    // priority={"compra.prioridade"}
-                                    status={compra.status}
-                                    // isChecked={compra.status === Status.COMPLETED}
-                                />
-                            );
-                        })}
-                    </View>
-                );
-            })}
+        <ScrollView style={{...styles.container, backgroundColor: theme.colors.background}}>
+            <Card style={{...styles.card, backgroundColor:theme.colors.background}}>
+                {groupedCompras.map((group, i) => {
+                    return (
+                        <View key={i}>
+                            <Text style={styles.sectionTitle}>{group.status === Status.PENDING ? 'Tarefas pendentes' : group.status === Status.COMPLETED ? 'Tarefas concluidas' : 'Tarefas canceladas'}</Text>
+                            {group.compras.map((compra, i) => {
+                                return (
+                                    <TaskCard
+                                        key={i}
+                                        title={compra.nome}
+                                        total={convertToCurrency(compra.total)}
+                                        time={compra.created.toLocaleString()}
+                                        onPress={() => navigation.navigate(Routes.PRODUCTS, compra)}
+                                        // priority={"compra.prioridade"}
+                                        status={compra.status}
+                                        // isChecked={compra.status === Status.COMPLETED}
+                                    />
+                                );
+                            })}
+                        </View>
+                    );
+                })}
+            </Card>
         </ScrollView>
     );
 };
@@ -61,39 +79,25 @@ const ComprasScreen = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 20,
-    backgroundColor: '#ffffff',
+    padding: 16,
   },
-  header: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    marginBottom: 20,
-  },
-  categoryContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 20,
-  },
-  categoryItem: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
+  card: {
+
+    shadowOffset: {
+        width: 0,
+        height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 0.1,
+    elevation: 1,
     borderRadius: 10,
-  },
-  categoryText: {
-    fontSize: 16,
-    fontWeight: 'bold',
-    color: '#333',
+    padding: 20,
   },
   sectionTitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginVertical: 10,
+    marginBottom: 10,
     color: '#555',
-  },
-  card: {
-    marginBottom: 15,
-    borderRadius: 10,
-    paddingHorizontal: 10,
   },
   taskTitle: {
     fontSize: 16,
@@ -115,6 +119,5 @@ const styles = StyleSheet.create({
     right: 10,
   },
 });
-
 export default ComprasScreen;
 

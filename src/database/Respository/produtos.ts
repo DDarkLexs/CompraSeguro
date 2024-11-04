@@ -2,7 +2,14 @@ import { knex } from '../index'; // Adjust the import path as necessary
 
 class ProdutoRepository {
   async getAllProdutos(): Promise<IProdutos[]> {
-    return await knex('Produtos').orderBy('created', 'desc').select('*');
+    return await knex('Produtos')
+    .orderBy('created', 'desc')
+    .select('*');
+  }
+  async getAllProdutosByCompra(id_compra: number): Promise<IProdutos[]> {
+    return await knex('Produtos')
+    .orderBy('created', 'desc')
+    .select('*').where('id_compra', id_compra);
   }
 
   async getProdutoById(id_produto: number): Promise<IProdutos> {

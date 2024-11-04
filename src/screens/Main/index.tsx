@@ -71,6 +71,7 @@ const MainBottomTabStack: React.FC = () => {
             />
           ),
           title:"Nova lista",
+          
         }}
         name={Routes.NEW_TASK}
         component={CreateTaskScreen}

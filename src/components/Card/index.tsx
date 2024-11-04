@@ -17,28 +17,28 @@ const TaskCard: FC<TaskCardProps> = ({ title, total, time, status,onPress}) => {
 
   const styles = StyleSheet.create({
     cardContainer: {
+      
       flexDirection: 'row',
       alignItems: 'center',
       marginBottom: 10,
       borderRadius: 12,
-      backgroundColor: '#ffeef0',
+      backgroundColor: theme.colors.inversePrimary,
     },
     sideBar: {
       width: 10,
       shadowOpacity:0,
       elevation: 0,
+
       shadowOffset: { width: 0, height: 0 },
-      
-      backgroundColor: '#FF6B6B', // Cor da barra lateral (vermelho)
-      borderTopLeftRadius: 12,
-      borderBottomLeftRadius: 12,
+      borderColor: 'red',
     },
     cardContent: {
-      flex: 1,
+      // flex: 1,
       padding: 15,
       justifyContent: 'space-between',
       flexDirection: 'row',
       alignItems: 'center',
+      backgroundColor: theme.colors.background,
     },
     taskInfo: {
       flex: 1,

@@ -8,7 +8,7 @@ import repo from "../../database/Respository/produtos";
 
 const CreateProductScreen: React.FC<
   NativeStackScreenProps<StackScreen, Routes.NEW_PRODUCT>
-> = ({ navigation, route }): React.JSX.Element => {
+> = ({ navigation, route, }): React.JSX.Element => {
   const theme = useTheme();
   const [produto, setProduto] = React.useState<IprodutoDto>({
     nome: "",

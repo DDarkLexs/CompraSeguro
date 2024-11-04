@@ -1,7 +1,7 @@
 const {Routes} = Modules;
 declare type StackScreen = {
   [Routes.MAIN]: undefined;
-  [Routes.PRODUCTS]: {id_compra: number};
+  [Routes.PRODUCTS]: ICompras;
   [Routes.TASKS]: undefined;
   [Routes.HOME]: undefined;
   [Routes.CALENDAR]: undefined;
