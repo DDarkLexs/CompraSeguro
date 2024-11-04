@@ -7,6 +7,7 @@ export enum Routes {
     CALENDAR = 'CALENDARIO',
     DASHBOARD = 'PAINEL',
     NEW_TASK = 'NOVA_COMPRA',
+    NEW_PRODUCT = 'NOVO_PRODUTO',
     NOTIFICATION = 'NOTIFICAÇÃO',
 }
   

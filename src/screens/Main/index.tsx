@@ -64,6 +64,7 @@ const MainBottomTabStack: React.FC = () => {
       />
       <Tab.Screen
         options={{
+          
           tabBarIcon: ({ color, focused }) => (
             <CustomTabButton
               onPress={() => navigation.navigate(Routes.NEW_TASK)}

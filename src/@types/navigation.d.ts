@@ -10,4 +10,5 @@ declare type StackScreen = {
   [Routes.NOTIFICATION]: undefined;
   [Routes.ORDER]: undefined;
   [Routes.PRODUCTS]: undefined;
+  [Routes.NEW_PRODUCT]: {id_compra: number};
 };

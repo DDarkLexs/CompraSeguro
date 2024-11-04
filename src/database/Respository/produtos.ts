@@ -9,9 +9,10 @@ class ProdutoRepository {
     return await knex('Produtos').where({ id_produto }).first();
   }
 
-  async createProduto(produto: IProdutos): Promise<IProdutos> {
-    const response = await knex('Produtos').insert(produto);
-    return await knex('Produtos').where({ id_produto: response }).first();
+  async createProduto(produto: IprodutoDto, id_compra: number): Promise<IProdutos> {
+    const response = await knex('Produtos').insert({...produto, id_compra});
+    console.log(response)
+    return await knex('Produtos').orderBy('id_produto', 'desc').first();
   }
 
   async updateProduto(id_produto: number, produto: IProdutos): Promise<IProdutos> {

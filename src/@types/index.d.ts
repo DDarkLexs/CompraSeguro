@@ -35,3 +35,11 @@ interface ICreateCompra implements Pick<ICompras, "nome" | "descricao"> {
     nome: string;
     descricao: string | null;
 } 
+
+
+interface IprodutoDto implements Pick<IProdutos, "nome" | "preco" | "qtd" | "comprado"> {
+    nome: string;
+    preco: number;
+    qtd: number;
+    comprado: boolean;  
+}

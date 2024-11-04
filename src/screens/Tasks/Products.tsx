@@ -8,14 +8,14 @@ const ProductsScreen: React.FC<
   NativeStackScreenProps<StackScreen, Routes.PRODUCTS>
 > = ({ navigation, route }): React.JSX.Element => {
   const [reminders, setReminders] = React.useState([
-    { id: 1, text: 'Hit the gym or go for a run', priority: 'High', completed: false },
-    { id: 2, text: 'Call the bank', priority: 'Normal', completed: false },
+    { id: 1, text: 'Ir à academia ou correr', priority: 'Alta', completed: false },
+    { id: 2, text: 'Ligar para o banco', priority: 'Normal', completed: false },
     {
       id: 3,
-      text: 'Drink more water, stay hydrated',
-      priority: 'High',
+      text: 'Beber mais água, mantenha-se hidratado',
+      priority: 'Alta',
       date: '2024-03-25, 10:00 am',
-      repeat: 'Daily',
+      repeat: 'Diário',
       completed: false,
     },
   ]);
@@ -32,7 +32,7 @@ const ProductsScreen: React.FC<
 
   return (
     <View style={styles.container}>
-      <Text style={styles.header}>Reminders</Text>
+      <Text style={styles.header}>Lembretes</Text>
       <ScrollView>
         {reminders.map((reminder) => (
           <View key={reminder.id} style={styles.reminderItem}>
@@ -44,7 +44,7 @@ const ProductsScreen: React.FC<
             <View style={styles.reminderTextContainer}>
               <Text style={styles.reminderText}>{reminder.text}</Text>
               <Text style={styles.priorityText}>
-                • {reminder.priority} priority
+                • prioridade {reminder.priority}
               </Text>
               {reminder.date && (
                 <Text style={styles.dateText}>
@@ -58,8 +58,8 @@ const ProductsScreen: React.FC<
       <FAB
         style={styles.fab}
         icon="plus"
-        label="Add a new reminder"
-        onPress={() => console.log('Add new reminder')}
+        label="Adicionar novo lembrete"
+        onPress={() => navigation.navigate(Routes.NEW_PRODUCT, { id_compra: route.params.id_compra })}
       />
     </View>
   );
@@ -113,3 +113,4 @@ const styles = StyleSheet.create({
 });
 
 export default ProductsScreen;
+

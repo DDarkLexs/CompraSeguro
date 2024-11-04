@@ -2,6 +2,7 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import ComprasScreen from "./Orders";
 import ListScreen from "./Products";
 import { Routes } from "../../constants/enums";
+import CreateProductScreen from "./AddProduct";
 
 
 const Stack = createNativeStackNavigator<StackScreen>();
@@ -15,8 +16,13 @@ const TaskStack: React.FC = () => {
         headerShown: false,
       }}
       initialRouteName={Routes.ORDER}>
+            <Stack.Group>
       <Stack.Screen name={Routes.ORDER} component={ComprasScreen} />
       <Stack.Screen name={Routes.PRODUCTS} component={ListScreen} />
+      </Stack.Group>
+      <Stack.Group screenOptions={{ presentation: 'modal' }}>
+        <Stack.Screen name={Routes.NEW_PRODUCT} component={CreateProductScreen} />
+      </Stack.Group>
       {/* 
         <Stack.Screen name="Settings" component={Settings} />
        */}
