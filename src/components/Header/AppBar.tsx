@@ -11,7 +11,7 @@ const CustomNavigationBar = (props: any) => {
             style={{
                 backgroundColor: theme.colors.background,
                 elevation: 3,
-                shadowOpacity: 0.1,
+                shadowOpacity: 0.0,
                 shadowOffset: {
                     width: 0,
                     height: 0,

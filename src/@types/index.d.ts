@@ -1,7 +1,6 @@
 interface ICompras {
     id_compra: number;
     nome: string;
-    // data: Date | string;
     descricao: string;
     status: Status.PENDING | Status.COMPLETED | Status.CANCELED;
     total: number;

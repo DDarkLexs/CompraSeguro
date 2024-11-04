@@ -1,11 +1,12 @@
 export enum Routes {
     MAIN = 'MAIN',
     HOME = 'PRINCIPAL',
-    TASKS = 'COMPRAS',
+    TASKS = 'TAREFAS',
     PRODUCTS = 'PRODUTOS',
+    ORDER = 'COMPRAS',
     CALENDAR = 'CALENDARIO',
     DASHBOARD = 'PAINEL',
-    NEW_TASK = 'NOVA_lISTAGEM',
+    NEW_TASK = 'NOVA_COMPRA',
     NOTIFICATION = 'NOTIFICAÇÃO',
 }
   

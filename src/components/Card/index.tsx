@@ -5,15 +5,15 @@ import { Card, Text, Checkbox, useTheme } from 'react-native-paper';
 // Componente reutilizável para exibir uma tarefa
 interface TaskCardProps {
   title: string;
-  description: string;
+  total: string;
   time: string;
   status: string;
-  isChecked: boolean;
+  onPress: () => void;
 }
 
-const TaskCard: FC<TaskCardProps> = ({ title, description, time, status, isChecked }) => {
+const TaskCard: FC<TaskCardProps> = ({ title, total, time, status,onPress}) => {
     const theme = useTheme();
-  const [checked, setChecked] = useState(isChecked);
+
 
   const styles = StyleSheet.create({
     cardContainer: {
@@ -21,7 +21,7 @@ const TaskCard: FC<TaskCardProps> = ({ title, description, time, status, isCheck
       alignItems: 'center',
       marginBottom: 10,
       borderRadius: 12,
-      backgroundColor: checked ? '#eef3ff' : '#ffeef0',
+      backgroundColor: '#ffeef0',
     },
     sideBar: {
       width: 10,
@@ -63,25 +63,22 @@ const TaskCard: FC<TaskCardProps> = ({ title, description, time, status, isCheck
   });
 
   return (
-    <TouchableOpacity onPress={() => {
+    // <TouchableOpacity onPress={() => {
       
-    }}>
+    // }}>
       <View style={styles.cardContainer}>
         <View style={styles.sideBar} />
-        <Card style={{ flex: 1, borderRadius: 12 }}>
+        <Card onPress={onPress} style={{ flex: 1, borderRadius: 12 }}>
           <Card.Content style={styles.cardContent}>
             <View style={styles.taskInfo}>
               <Text style={styles.taskTitle}>{title}</Text>
-              {description ? <Text style={styles.taskDescription}>{description}</Text> : null}
+              {total ? <Text style={styles.taskDescription}>{total}</Text> : null}
               <Text style={styles.taskTimePriority}>{time} • {status}</Text>
             </View>
-            <Checkbox 
-              status={checked ? "checked" : "unchecked"} 
-            />
           </Card.Content>
         </Card>
       </View>
-    </TouchableOpacity>
+    // </TouchableOpacity>
   );
 };
 
