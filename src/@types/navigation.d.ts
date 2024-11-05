@@ -11,4 +11,5 @@ declare type StackScreen = {
   [Routes.ORDER]: undefined;
   [Routes.PRODUCTS]: undefined;
   [Routes.NEW_PRODUCT]: {id_compra: number};
+  [Routes.UPDATE_PRODUCT]: IProdutos;
 };

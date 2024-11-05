@@ -3,6 +3,7 @@ import ComprasScreen from "./Orders";
 import ListScreen from "./Products";
 import { Routes } from "../../constants/enums";
 import CreateProductScreen from "./AddProduct";
+import UpdateProductScreen from "./Edit";
 
 
 const Stack = createNativeStackNavigator<StackScreen>();
@@ -22,6 +23,7 @@ const TaskStack: React.FC = () => {
       </Stack.Group>
       <Stack.Group screenOptions={{ presentation: 'modal' }}>
         <Stack.Screen name={Routes.NEW_PRODUCT} component={CreateProductScreen} />
+        <Stack.Screen name={Routes.UPDATE_PRODUCT} component={UpdateProductScreen} />
       </Stack.Group>
       {/* 
         <Stack.Screen name="Settings" component={Settings} />

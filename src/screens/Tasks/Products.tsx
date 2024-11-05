@@ -19,7 +19,7 @@ NativeStackScreenProps<StackScreen, Routes.PRODUCTS>
   const get = async ( ) => {
     try {
       const data2 = await compraRepo.getCompraById(compra.id_compra);
-      console.log(data2)
+      // console.log(data2)
       setCompra(data2);
       const data = await produtos.getAllProdutosByCompra(id_compra)
       setArtigo(data)
@@ -58,6 +58,15 @@ NativeStackScreenProps<StackScreen, Routes.PRODUCTS>
       console.warn(error);
     }
   };
+  const handleToggle = async (produto: IProdutos) => {
+      try {
+        await produtos.updateProduto(produto.id_produto, produto);
+
+        await get()
+      } catch (error) {
+        console.error(error)
+      }
+  };
 
 
 
@@ -85,7 +94,7 @@ NativeStackScreenProps<StackScreen, Routes.PRODUCTS>
           <View key={i} style={styles.reminderItem}>
             <Checkbox
               status={item.comprado ? 'checked' : 'unchecked'}
-              // onPress={() => handleToggle(reminder.id)}
+              onPress={() => handleToggle({...item, comprado: !item.comprado})}
               color={theme.colors.primary}
               />
             <View style={styles.reminderTextContainer}>
@@ -103,14 +112,14 @@ NativeStackScreenProps<StackScreen, Routes.PRODUCTS>
               <TouchableOpacity onPress={() => deleteItem(item.id_produto)}>
                 <Ionicons name={"trash-outline"} size={25}  color={"gray"} style={{marginRight:8}} />
               </TouchableOpacity>
-              <TouchableOpacity onPress={() =>{}}>
+              <TouchableOpacity onPress={() => navigation.navigate(Routes.UPDATE_PRODUCT, item)}>
                 <Ionicons name={"create-outline"} size={25}  color={"gray"} style={{marginRight:8}} />
               </TouchableOpacity>
-              <Checkbox
+              {/* <Checkbox
                 status={item.comprado ? 'checked' : 'unchecked'}
                 // onPress={() => handleToggle(reminder.id)}
                 color={theme.colors.primary}
-                />
+                /> */}
             </View>
           </View>
         ))}

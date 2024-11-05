@@ -55,26 +55,17 @@ const createSchema = async () => {
     }
     await knex
         .raw(
-            ` 
-    CREATE TRIGGER IF NOT EXISTS calcular_preco_total_insert
-    AFTER INSERT ON Produtos
-    FOR EACH ROW
-    WHEN NEW.qtd IS NOT NULL AND NEW.preco IS NOT NULL
-    BEGIN
-      UPDATE Produtos
-      SET total = NEW.preco * NEW.qtd
-      WHERE id_produto = NEW.id_produto;
-    END;
-    CREATE TRIGGER IF NOT EXISTS calcular_preco_total_update
-    AFTER UPDATE ON Produtos
-    FOR EACH ROW
-    WHEN NEW.qtd IS NOT NULL AND NEW.preco IS NOT NULL
-    BEGIN
-      UPDATE Produtos
-      SET total = NEW.preco * NEW.qtd
-      WHERE id_produto = NEW.id_produto;
-    END;
-      `,
+            `
+            CREATE TRIGGER IF NOT EXISTS calcular_preco_total_insert
+            AFTER INSERT ON Produtos
+            FOR EACH ROW
+            WHEN NEW.qtd IS NOT NULL AND NEW.preco IS NOT NULL
+            BEGIN
+              UPDATE Produtos
+              SET total = NEW.preco * NEW.qtd
+              WHERE id_produto = NEW.id_produto;
+            END;
+            `,
         )
         .then((a) => {
             console.log(a);
@@ -82,47 +73,69 @@ const createSchema = async () => {
     await knex
         .raw(
             `
--- Trigger para atualizar o total de uma compra ao deletar um produto
-CREATE TRIGGER IF NOT EXISTS atualizar_total_compra_delete
-AFTER DELETE ON Produtos
-FOR EACH ROW
-WHEN OLD.id_compra IS NOT NULL
-BEGIN
-  -- Atualiza o total da compra após a exclusão do produto
-  UPDATE Compras
-  SET total = COALESCE((SELECT SUM(P.total) FROM Produtos AS P WHERE P.id_compra = OLD.id_compra), 0)
-  WHERE id_compra = OLD.id_compra;
-END;
-
-
-`,
-        ).catch((e) => {
-            console.error(e);
+            CREATE TRIGGER IF NOT EXISTS calcular_preco_total_update
+            AFTER UPDATE ON Produtos
+            FOR EACH ROW
+            WHEN NEW.qtd IS NOT NULL AND NEW.preco IS NOT NULL
+            BEGIN
+              UPDATE Produtos
+              SET total = NEW.preco * NEW.qtd
+              WHERE id_produto = NEW.id_produto;
+            END;
+            `,
+        )
+        .then((a) => {
+            console.log(a);
+        });
+    await knex
+        .raw(
+            `
+            -- Trigger para atualizar o total de uma compra ao deletar um produto
+            CREATE TRIGGER IF NOT EXISTS atualizar_total_compra_delete
+            AFTER DELETE ON Produtos
+            FOR EACH ROW
+            WHEN OLD.id_compra IS NOT NULL
+            BEGIN
+              -- Atualiza o total da compra após a exclusão do produto
+              UPDATE Compras
+              SET total = COALESCE((SELECT SUM(P.total) FROM Produtos AS P WHERE P.id_compra = OLD.id_compra), 0)
+              WHERE id_compra = OLD.id_compra;
+            END;
+            `,
+        )
+        .then((a) => {
+            console.log(a);
         });
     await knex
         .raw(
             `
             -- Trigger para atualizar o total de uma compra ao inserir um novo produto
-CREATE TRIGGER IF NOT EXISTS atualizar_total_compra_insert
-AFTER INSERT ON Produtos
-FOR EACH ROW
-WHEN NEW.id_compra IS NOT NULL
-BEGIN
-  -- Atualiza o total do produto recém-adicionado
-  UPDATE Produtos
-  SET total = NEW.preco * NEW.qtd
-  WHERE id_produto = NEW.id_produto;
-  
-  -- Atualiza o total da compra e a data de atualização
-  UPDATE Compras
-  SET 
-    total = (SELECT SUM(P.total) FROM Produtos AS P WHERE P.id_compra = NEW.id_compra),
-    updated = CURRENT_TIMESTAMP
-  WHERE id_compra = NEW.id_compra;
-END;
-
--- Trigger para atualizar o total de uma compra ao atualizar um produto existente
-CREATE TRIGGER IF NOT EXISTS atualizar_total_compra_update
+            CREATE TRIGGER IF NOT EXISTS atualizar_total_compra_insert
+            AFTER INSERT ON Produtos
+            FOR EACH ROW
+            WHEN NEW.id_compra IS NOT NULL
+            BEGIN
+              -- Atualiza o total do produto recém-adicionado
+              UPDATE Produtos
+              SET total = NEW.preco * NEW.qtd
+              WHERE id_produto = NEW.id_produto;
+              
+              -- Atualiza o total da compra e a data de atualização
+              UPDATE Compras
+              SET 
+                total = (SELECT SUM(P.total) FROM Produtos AS P WHERE P.id_compra = NEW.id_compra),
+                updated = CURRENT_TIMESTAMP
+              WHERE id_compra = NEW.id_compra;
+            END;
+            `,
+        )
+        .then((a) => {
+            console.log(a);
+        });
+    await knex
+        .raw(
+            `
+    CREATE TRIGGER IF NOT EXISTS atualizar_total_compra_update_total
 AFTER UPDATE ON Produtos
 FOR EACH ROW
 WHEN NEW.id_compra IS NOT NULL
@@ -132,15 +145,12 @@ BEGIN
   SET total = NEW.preco * NEW.qtd
   WHERE id_produto = NEW.id_produto;
 
-  -- Recalcula o total da compra e atualiza a data de alteração
+  -- Recalcula o total da compra
   UPDATE Compras
-  SET 
-    total = (SELECT SUM(P.total) FROM Produtos AS P WHERE P.id_compra = NEW.id_compra),
-    updated = CURRENT_TIMESTAMP
+  SET total = (SELECT SUM(P.total) FROM Produtos AS P WHERE P.id_compra = NEW.id_compra)
   WHERE id_compra = NEW.id_compra;
 END;
-
-`,
+            `,
         )
         .then((a) => {
             console.log(a);
@@ -200,6 +210,13 @@ const dropTablesAndTriggers = async () => {
     }
 };
 
+// knex
+// .raw('DROP TRIGGER IF EXISTS atualizar_total_compra_update')
+// .then(() => {
+//     console.log(
+//         'Tabela "atualizar_total_compra_update" excluida com sucesso!',
+//     );
+// });
 // Chame a função para executar o drop das tabelas
 // dropTables();
 export {createSchema, dropTablesAndTriggers};
