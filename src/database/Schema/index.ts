@@ -81,35 +81,38 @@ const createSchema = async () => {
         });
     await knex
         .raw(
-            `
-         -- Trigger para atualizar o total de uma compra ao inserir um produto
+            `-- Trigger para atualizar o total de uma compra ao inserir um novo produto
 CREATE TRIGGER IF NOT EXISTS atualizar_total_compra_insert
 AFTER INSERT ON Produtos
 FOR EACH ROW
 WHEN NEW.id_compra IS NOT NULL
 BEGIN
-  UPDATE Compras
-  SET total = (SELECT SUM(P.total) FROM Produtos AS P WHERE P.id_compra = NEW.id_compra)
-  WHERE id_compra = NEW.id_compra;
-
+  -- Atualiza o total do produto recém-adicionado
   UPDATE Produtos
   SET total = NEW.preco * NEW.qtd
   WHERE id_produto = NEW.id_produto;
+  
+  -- Atualiza o total da compra
+  UPDATE Compras
+  SET total = (SELECT SUM(P.total) FROM Produtos AS P WHERE P.id_compra = NEW.id_compra)
+  WHERE id_compra = NEW.id_compra;
 END;
 
--- Trigger para atualizar o total de uma compra ao atualizar um produto
+-- Trigger para atualizar o total de uma compra ao atualizar um produto existente
 CREATE TRIGGER IF NOT EXISTS atualizar_total_compra_update
 AFTER UPDATE ON Produtos
 FOR EACH ROW
 WHEN NEW.id_compra IS NOT NULL
 BEGIN
-  UPDATE Compras
-  SET total = (SELECT SUM(P.total) FROM Produtos AS P WHERE P.id_compra = NEW.id_compra)
-  WHERE id_compra = NEW.id_compra;
-
+  -- Atualiza o total do produto modificado
   UPDATE Produtos
   SET total = NEW.preco * NEW.qtd
   WHERE id_produto = NEW.id_produto;
+
+  -- Recalcula o total da compra
+  UPDATE Compras
+  SET total = (SELECT SUM(P.total) FROM Produtos AS P WHERE P.id_compra = NEW.id_compra)
+  WHERE id_compra = NEW.id_compra;
 END;
 
 -- Trigger para atualizar o total de uma compra ao deletar um produto
@@ -118,11 +121,12 @@ AFTER DELETE ON Produtos
 FOR EACH ROW
 WHEN OLD.id_compra IS NOT NULL
 BEGIN
+  -- Recalcula o total da compra após o produto ser deletado
   UPDATE Compras
   SET total = (SELECT SUM(P.total) FROM Produtos AS P WHERE P.id_compra = OLD.id_compra)
   WHERE id_compra = OLD.id_compra;
 END;
-      `,
+`,
         )
         .then((a) => {
             console.log(a);

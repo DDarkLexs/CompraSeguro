@@ -53,3 +53,11 @@ function App(): JSX.Element {
 }
 
 export default App;
+
+
+/* 
+npx expo run:android --variant release
+npx expo run:ios --configuration Release
+
+
+*/
