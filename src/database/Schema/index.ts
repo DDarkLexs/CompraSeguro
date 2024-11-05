@@ -81,7 +81,28 @@ const createSchema = async () => {
         });
     await knex
         .raw(
-            `-- Trigger para atualizar o total de uma compra ao inserir um novo produto
+            `
+-- Trigger para atualizar o total de uma compra ao deletar um produto
+CREATE TRIGGER IF NOT EXISTS atualizar_total_compra_delete
+AFTER DELETE ON Produtos
+FOR EACH ROW
+WHEN OLD.id_compra IS NOT NULL
+BEGIN
+  -- Atualiza o total da compra após a exclusão do produto
+  UPDATE Compras
+  SET total = COALESCE((SELECT SUM(P.total) FROM Produtos AS P WHERE P.id_compra = OLD.id_compra), 0)
+  WHERE id_compra = OLD.id_compra;
+END;
+
+
+`,
+        ).catch((e) => {
+            console.error(e);
+        });
+    await knex
+        .raw(
+            `
+            -- Trigger para atualizar o total de uma compra ao inserir um novo produto
 CREATE TRIGGER IF NOT EXISTS atualizar_total_compra_insert
 AFTER INSERT ON Produtos
 FOR EACH ROW
@@ -92,9 +113,11 @@ BEGIN
   SET total = NEW.preco * NEW.qtd
   WHERE id_produto = NEW.id_produto;
   
-  -- Atualiza o total da compra
+  -- Atualiza o total da compra e a data de atualização
   UPDATE Compras
-  SET total = (SELECT SUM(P.total) FROM Produtos AS P WHERE P.id_compra = NEW.id_compra)
+  SET 
+    total = (SELECT SUM(P.total) FROM Produtos AS P WHERE P.id_compra = NEW.id_compra),
+    updated = CURRENT_TIMESTAMP
   WHERE id_compra = NEW.id_compra;
 END;
 
@@ -109,28 +132,19 @@ BEGIN
   SET total = NEW.preco * NEW.qtd
   WHERE id_produto = NEW.id_produto;
 
-  -- Recalcula o total da compra
+  -- Recalcula o total da compra e atualiza a data de alteração
   UPDATE Compras
-  SET total = (SELECT SUM(P.total) FROM Produtos AS P WHERE P.id_compra = NEW.id_compra)
+  SET 
+    total = (SELECT SUM(P.total) FROM Produtos AS P WHERE P.id_compra = NEW.id_compra),
+    updated = CURRENT_TIMESTAMP
   WHERE id_compra = NEW.id_compra;
 END;
 
--- Trigger para atualizar o total de uma compra ao deletar um produto
-CREATE TRIGGER IF NOT EXISTS atualizar_total_compra_delete
-AFTER DELETE ON Produtos
-FOR EACH ROW
-WHEN OLD.id_compra IS NOT NULL
-BEGIN
-  -- Recalcula o total da compra após o produto ser deletado
-  UPDATE Compras
-  SET total = (SELECT SUM(P.total) FROM Produtos AS P WHERE P.id_compra = OLD.id_compra)
-  WHERE id_compra = OLD.id_compra;
-END;
 `,
         )
         .then((a) => {
             console.log(a);
-        });
+        }).catch((err) => console.log(err));
 };
 
 const dropTablesAndTriggers = async () => {

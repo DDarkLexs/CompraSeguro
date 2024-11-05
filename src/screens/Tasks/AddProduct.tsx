@@ -23,7 +23,12 @@ const CreateProductScreen: React.FC<
       setLoding(true);
       await repo.createProduto(produto, route.params.id_compra);
 
-      Alert.alert("Sucesso", `Produto ${produto.nome} registado com sucesso`);
+      Alert.alert("Sucesso", `Produto ${produto.nome} registado com sucesso`, [
+        {
+          text: "Ok",
+          onPress: () => navigation.goBack(),
+        },
+      ]);
     } catch (error) {
       console.error(error);
     } finally {
@@ -49,6 +54,7 @@ const CreateProductScreen: React.FC<
             value={produto.nome}
             editable={!loading}
             placeholder="Título"
+            
             style={styles.textInput}
             onChangeText={(text) => setProduto({ ...produto, nome: text })}
           />
@@ -66,7 +72,9 @@ const CreateProductScreen: React.FC<
           <TextInput
             value={produto.preco.toString()}
             editable={!loading}
-            placeholder="Preco"
+            placeholder="Preço"
+            inputMode="numeric"
+            keyboardType="numbers-and-punctuation"
             style={styles.textInput}
             onChangeText={(text) =>
               setProduto({ ...produto, preco: Number(text) })
@@ -85,6 +93,8 @@ const CreateProductScreen: React.FC<
           <TextInput
             value={produto.qtd.toString()}
             editable={!loading}
+            inputMode="numeric"
+            keyboardType="numbers-and-punctuation"
             placeholder="Quantidade"
             style={styles.textInput}
             onChangeText={(text) =>
