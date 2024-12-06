@@ -8,10 +8,9 @@ import * as Font from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { dark, light } from "./styles/theme";
 import {createSchema, dropTablesAndTriggers}  from "./database/Schema";
-if (Platform.OS === 'ios') {
   
   SplashScreen.preventAutoHideAsync(); // Previne a splash screen de fechar automaticamente
-}
+
 
 function App(): JSX.Element {
    const theme = useColorScheme() == 'light' ?  light : dark;
@@ -26,9 +25,9 @@ function App(): JSX.Element {
       'Nunito-Regular': require('../assets/fonts/Nunito-Regular.ttf'),
     });
     setFontsLoaded(true);
-    if (Platform.OS === 'ios') {
+  
       await SplashScreen.hideAsync(); // Oculta a splash screen após o carregamento das fontes
-    }
+    
   };
 
   useEffect(() => {

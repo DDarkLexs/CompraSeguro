@@ -24,6 +24,23 @@ class CompraRepository {
   async deleteCompra(id_compra: number): Promise<number> {
     return await knex('Compras').where({ id_compra }).del();
   }
+  async getAnalise(): Promise<AnaliseStats> {
+    const [Cancelada, Concluida,Pendente ] = await knex.raw(`
+SELECT 'Pendente' as status, SUM(total) as total, COUNT(*) as quantidade
+FROM Compras
+WHERE status = '${Status.PENDING}'
+UNION ALL
+SELECT 'Concluída' as status, SUM(total) as total, COUNT(*) as quantidade
+FROM Compras
+WHERE status = '${Status.COMPLETED}'
+UNION ALL
+SELECT 'Cancelada' as status, SUM(total) as total, COUNT(*) as quantidade
+FROM Compras
+WHERE status = '${Status.CANCELED}'
+ORDER BY status
+      `);
+    return {Pendente, Concluida, Cancelada};
+  }
 }
 
 export default new CompraRepository();

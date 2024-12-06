@@ -1,10 +1,27 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { View, StyleSheet, ScrollView } from 'react-native';
 import { Text, Card, useTheme } from 'react-native-paper';
 import { Ionicons } from '@expo/vector-icons';
-
-const HomeScreen = () => {
+import compraRepository from '../../database/Respository/compra';
+import { Routes } from '../../constants/enums';
+import { NativeStackScreenProps } from '@react-navigation/native-stack';
+const HomeScreen: React.FC<
+NativeStackScreenProps<StackScreen, Routes.HOME>
+> = ({ navigation, route }): React.JSX.Element => {
+  const [analise,setAnalise] = useState<AnaliseStats | null>(null)
   const theme = useTheme();
+  useEffect(() => {
+    consultarAnalise()
+  }, [])
+  const consultarAnalise = async () => {
+    const data = await compraRepository.getAnalise();
+    setAnalise(data);
+  }
+  useEffect(()=>{
+    const unsubscribe = navigation.addListener('focus', consultarAnalise);
+    return unsubscribe; // Limpa o listener ao desmontar o componente
+  },[navigation])
+
 
   return (
     <ScrollView contentContainerStyle={styles.container}>
@@ -20,7 +37,7 @@ const HomeScreen = () => {
       {/* Seção de Atividade */}
       <View style={styles.activitySection}>
         <Text style={styles.activityTitle}>Atividade</Text>
-        <Text style={styles.activityDate}>Hoje, 9 de setembro de 2024</Text>
+        <Text style={styles.activityDate}>{"Hoje, " + new Date().toLocaleDateString('pt-BR', { day: 'numeric', month: 'long', year: 'numeric' })}</Text>
 
         {/* Ícones de Filtro */}
         <View style={styles.filterIcons}>
@@ -31,11 +48,19 @@ const HomeScreen = () => {
 
       {/* Cartões de Tarefas */}
       <View style={styles.cardsContainer}>
-        <TaskCard title="Todas" count="09" color={theme.colors.primary} icon="checkmark-circle-outline" />
-        <TaskCard title="Para fazer" count="03" color={theme.colors.tertiary} icon="clipboard-outline" />
-        <TaskCard title="Concluídas" count="02" color={theme.colors.primary} icon="checkmark-done-outline" />
-        <TaskCard title="Pendentes" count="02" color={theme.colors.secondary} icon="timer-outline" />
-        <TaskCard title="Atrasadas" count="02" color={theme.colors.error} icon="alert-circle-outline" />
+        {analise && Object.entries(analise).map(([status, { quantidade, total }]) => (
+          <TaskCard
+            key={status}
+            title={status}
+            count={quantidade.toString()}
+            color={theme.colors.tertiary}
+            icon={{
+              Cancelada: "close-circle-outline",
+              Concluida: "checkmark-done-outline",
+              Pendente: "timer-outline",
+            }[status]}
+          />
+        ))}
       </View>
     </ScrollView>
   );
